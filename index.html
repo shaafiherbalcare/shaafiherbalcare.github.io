@@ -1,0 +1,54 @@
+<!-- === FILE: index.html === -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shaafi Herbal Care - Products</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Shaafi Herbal Care</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contactus.html">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Our Products</h2>
+    <div id="product-list" class="product-container"></div>
+  </main>
+  <footer>
+    <p>&copy; 2025 Shaafi Herbal Care</p>
+  </footer>
+
+  <script>
+    async function loadProducts() {
+      const response = await fetch('products.csv');
+      const data = await response.text();
+      const lines = data.split('\n').slice(1);
+      const container = document.getElementById('product-list');
+
+      lines.forEach(line => {
+        const [name, description, price] = line.split(',');
+        if (name && description && price) {
+          const html = `
+            <div class="product-card">
+              <h3>${name}</h3>
+              <p>${description}</p>
+              <p><strong>Price:</strong> ₹${price}</p>
+              <a class="buy-button" target="_blank" href="https://wa.me/919409050656?text=I'm%20interested%20in%20${encodeURIComponent(name)}">Buy Now</a>
+            </div>
+          `;
+          container.innerHTML += html;
+        }
+      });
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
